@@ -14,3 +14,8 @@ class AccountViewSet(viewsets.ModelViewSet):
 
 class RegisterApiView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
+
+
+class LoginApiView(ObtainAuthToken):
+    serializer_class = AuthTokenSerializer
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES

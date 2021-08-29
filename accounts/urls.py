@@ -7,5 +7,6 @@ router.register('account', views.AccountViewSet)
 
 urlpatterns = [
     path('register/', views.RegisterApiView.as_view(), name='register'),
+    path('login/', views.LoginApiView.as_view(), name='auth'),
     path('', include(router.urls)),
 ]
