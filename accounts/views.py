@@ -1,8 +1,9 @@
 
 from rest_framework import viewsets, generics
-from .serializers import AccountSerializer, RegisterSerializer
-from rest_framework.response import Response
+from .serializers import AccountSerializer, AuthTokenSerializer, RegisterSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 from .models import Account
+from rest_framework.settings import api_settings
 # Create your views here.
 
 
@@ -11,19 +12,5 @@ class AccountViewSet(viewsets.ModelViewSet):
     serializer_class = AccountSerializer
 
 
-class RegisterApiView(generics.GenericAPIView):
+class RegisterApiView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        result = {}
-        if serializer.is_valid():
-            account = serializer.save()
-            print('account', account)
-            result["message"] = "Account has been successfully created"
-            result["email"] = account.email
-            result["username"] = account.username
-        else:
-            result = serializer.errors
-        print(result)
-        return Response(result)
