@@ -4,13 +4,6 @@ from .models import Account
 from django.utils.translation import ugettext_lazy as _
 
 
-class AccountSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Account
-        fields = ('email', 'username')
-        read_onlyfields = ('email', 'username')
-
-
 class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
