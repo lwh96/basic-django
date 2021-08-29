@@ -2,33 +2,45 @@
 from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
-from .serializers import DiamondAreaSerializer, QuadrilateralPerimeterSerializer, RectangleAreaSerializer, RectangleSerializer, DiamondSerializer, SquareSerializer, TriangleAreaSerializer, TrianglePerimeterSerializer, TriangleSerializer
+from .serializers import *
 from .models import Rectangle, Diamond, Square, Triangle
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
-class RectangleViewSet(ModelViewSet):
+class BaseViewSet(ModelViewSet):
+    queryset = None
+    serializer_class = None
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+
+class RectangleViewSet(BaseViewSet):
     queryset = Rectangle.objects.all()
     serializer_class = RectangleSerializer
 
 
-class SquareViewSet(ModelViewSet):
+class SquareViewSet(BaseViewSet):
     queryset = Square.objects.all()
     serializer_class = SquareSerializer
 
 
-class DiamondViewSet(ModelViewSet):
+class DiamondViewSet(BaseViewSet):
     queryset = Diamond.objects.all()
     serializer_class = DiamondSerializer
 
 
-class TriangleViewSet(ModelViewSet):
+class TriangleViewSet(BaseViewSet):
     queryset = Triangle.objects.all()
     serializer_class = TriangleSerializer
 
 
 class AreaViewSet(viewsets.ViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     def retrieve(self, request, type, pk=None):
         queryset = None
         if type == 'rectangle':
@@ -50,6 +62,9 @@ class AreaViewSet(viewsets.ViewSet):
 
 
 class PerimeterViewSet(viewsets.ViewSet):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     def retrieve(self, request, type, pk=None):
         queryset = None
         if type == 'rectangle':
